@@ -1,0 +1,793 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f6f1e7" />
+  <meta name="description" content="Una invitación especial para Marita ♡" />
+  <title>Para Marita ♡</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ivory: #f7f2e8;
+      --pearl: #fffdf8;
+      --ink: #27231f;
+      --muted: #7f776e;
+      --champagne: #cdbb91;
+      --champagne-dark: #9c875d;
+      --rose: #b98387;
+      --rose-soft: #ead6d5;
+      --line: rgba(39, 35, 31, 0.12);
+      --shadow: 0 24px 70px rgba(70, 57, 40, 0.12);
+      --radius: 28px;
+      --ease: cubic-bezier(.22,.8,.22,1);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--ivory);
+      color: var(--ink);
+      font-family: "Manrope", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overscroll-behavior: none;
+    }
+
+    body {
+      min-height: 100svh;
+      overflow: hidden;
+    }
+
+    button { font: inherit; }
+
+    .app {
+      position: relative;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: max(20px, env(safe-area-inset-top)) 18px max(22px, env(safe-area-inset-bottom));
+      isolation: isolate;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(255,255,255,.95), transparent 32%),
+        radial-gradient(circle at 92% 88%, rgba(205,187,145,.15), transparent 30%),
+        linear-gradient(155deg, var(--pearl), var(--ivory));
+    }
+
+    .ambient {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: -2;
+    }
+
+    .ambient::before,
+    .ambient::after {
+      content: "";
+      position: absolute;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      filter: blur(3px);
+      border: 1px solid rgba(205,187,145,.22);
+    }
+
+    .ambient::before { top: -110px; right: -110px; }
+    .ambient::after { bottom: -120px; left: -130px; }
+
+    .shell {
+      width: min(100%, 520px);
+      min-height: min(720px, calc(100svh - 42px));
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2px 4px 16px;
+      min-height: 34px;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .mini-heart {
+      font-family: Georgia, serif;
+      font-size: 18px;
+      color: var(--rose);
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    .stage {
+      position: relative;
+      flex: 1;
+      display: grid;
+      align-items: stretch;
+    }
+
+    .scene {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 34px 24px 26px;
+      border: 1px solid rgba(255,255,255,.7);
+      border-radius: var(--radius);
+      background: rgba(255,253,248,.78);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      opacity: 0;
+      transform: translateY(18px) scale(.985);
+      pointer-events: none;
+      transition: opacity .48s var(--ease), transform .58s var(--ease);
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+
+    .scene::-webkit-scrollbar { display: none; }
+
+    .scene.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+      z-index: 2;
+    }
+
+    .scene.leaving {
+      opacity: 0;
+      transform: translateY(-16px) scale(.99);
+    }
+
+    .eyebrow {
+      margin: 0 0 16px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      color: var(--champagne-dark);
+    }
+
+    h1, h2 {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      margin: 0;
+      letter-spacing: -.02em;
+      line-height: .98;
+      text-wrap: balance;
+    }
+
+    h1 { font-size: clamp(44px, 13vw, 68px); font-weight: 600; }
+    h2 { font-size: clamp(38px, 10.5vw, 56px); font-weight: 600; }
+
+    .lead {
+      margin: 18px 0 0;
+      font-size: clamp(16px, 4.4vw, 18px);
+      line-height: 1.7;
+      color: #534d46;
+      text-wrap: pretty;
+    }
+
+    .soft { color: var(--muted); }
+
+    .actions {
+      margin-top: 30px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .btn {
+      width: 100%;
+      min-height: 56px;
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 20px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .25s var(--ease), opacity .25s var(--ease), font-size .25s var(--ease);
+    }
+
+    .btn:active { transform: scale(.97); }
+
+    .btn.primary {
+      background: var(--ink);
+      color: #fffaf2;
+      box-shadow: 0 12px 30px rgba(39,35,31,.18);
+      font-weight: 700;
+    }
+
+    .btn.secondary {
+      background: rgba(255,255,255,.65);
+      color: var(--ink);
+      border: 1px solid var(--line);
+      font-weight: 600;
+    }
+
+    .btn.ghost {
+      background: transparent;
+      color: var(--muted);
+      border: 1px dashed rgba(39,35,31,.18);
+      font-size: 14px;
+    }
+
+    .btn.grow { transform: scale(1.07); min-height: 60px; }
+    .btn.shrink-1 { transform: scale(.90); opacity: .92; }
+    .btn.shrink-2 { transform: scale(.78); opacity: .82; }
+    .btn.shrink-3 { transform: scale(.66); opacity: .68; }
+    .btn.contract-grow-1 { transform: scale(1.06); min-height: 60px; }
+    .btn.contract-grow-2 { transform: scale(1.12); min-height: 64px; font-size: 15px; }
+
+    .divider {
+      width: 48px;
+      height: 1px;
+      background: var(--champagne);
+      margin: 24px 0;
+    }
+
+    .quote {
+      margin-top: 22px;
+      padding: 20px;
+      border-left: 2px solid var(--champagne);
+      background: rgba(255,255,255,.42);
+      border-radius: 0 16px 16px 0;
+      color: #4b453e;
+      line-height: 1.65;
+      font-size: 15px;
+    }
+
+    .reveal-card {
+      margin-top: 26px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: rgba(255,255,255,.5);
+    }
+
+    .reveal-card strong {
+      display: block;
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 29px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .choices {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .contract {
+      margin-top: 24px;
+      padding: 22px 18px;
+      border: 1px solid rgba(156,135,93,.3);
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(255,255,255,.72), rgba(255,255,255,.38));
+    }
+
+    .contract-title {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 28px;
+      margin: 0 0 14px;
+    }
+
+    .contract ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 10px;
+      color: #504940;
+      line-height: 1.45;
+      font-size: 15px;
+    }
+
+    .contract li::before {
+      content: "♡";
+      color: var(--rose);
+      margin-right: 10px;
+    }
+
+    .small-print {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height .45s var(--ease), opacity .35s ease, margin .35s ease;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .small-print.show {
+      max-height: 130px;
+      opacity: 1;
+      margin-top: 15px;
+    }
+
+    .ticket {
+      margin-top: 28px;
+      border: 1px solid rgba(156,135,93,.34);
+      border-radius: 24px;
+      overflow: hidden;
+      background: rgba(255,255,255,.62);
+    }
+
+    .ticket-main {
+      padding: 22px;
+      text-align: center;
+    }
+
+    .ticket-date {
+      font-size: 12px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--champagne-dark);
+      font-weight: 700;
+    }
+
+    .ticket-time {
+      margin-top: 8px;
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 50px;
+      line-height: 1;
+    }
+
+    .ticket-bottom {
+      border-top: 1px dashed rgba(39,35,31,.18);
+      padding: 14px 20px;
+      text-align: center;
+      color: #5e574f;
+      font-size: 14px;
+    }
+
+    .final-copy {
+      margin-top: 24px;
+      text-align: center;
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(29px, 8vw, 40px);
+      line-height: 1.15;
+    }
+
+    .final-copy span { display: block; }
+
+    .signature {
+      margin-top: 22px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .progress {
+      display: flex;
+      justify-content: center;
+      gap: 9px;
+      padding-top: 18px;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(39,35,31,.14);
+      transition: transform .3s var(--ease), background .3s ease;
+    }
+
+    .dot.on {
+      background: var(--rose);
+      transform: scale(1.28);
+    }
+
+    .heart-particle {
+      position: fixed;
+      left: 50%;
+      top: 58%;
+      z-index: 20;
+      pointer-events: none;
+      font-family: Georgia, serif;
+      color: var(--rose);
+      animation: floatHeart var(--duration, 1.7s) var(--ease) forwards;
+      font-size: var(--size, 20px);
+      opacity: 0;
+    }
+
+    @keyframes floatHeart {
+      0% { opacity: 0; transform: translate(-50%, 10px) scale(.7) rotate(0deg); }
+      18% { opacity: .9; }
+      100% { opacity: 0; transform: translate(calc(-50% + var(--drift, 0px)), -220px) scale(1.35) rotate(var(--rot, 8deg)); }
+    }
+
+    .spark {
+      position: fixed;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--champagne-dark);
+      pointer-events: none;
+      z-index: 25;
+      animation: burst .9s var(--ease) forwards;
+    }
+
+    @keyframes burst {
+      from { opacity: 1; transform: translate(0,0) scale(1); }
+      to { opacity: 0; transform: translate(var(--x), var(--y)) scale(.2); }
+    }
+
+    .fade-line {
+      opacity: 0;
+      transform: translateY(8px);
+      animation: lineIn .7s var(--ease) forwards;
+    }
+    .fade-line:nth-child(2) { animation-delay: .35s; }
+    .fade-line:nth-child(3) { animation-delay: .8s; }
+
+    @keyframes lineIn { to { opacity: 1; transform: none; } }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(26px + env(safe-area-inset-bottom));
+      transform: translate(-50%, 18px);
+      width: min(calc(100% - 36px), 420px);
+      padding: 13px 16px;
+      border-radius: 16px;
+      background: rgba(39,35,31,.94);
+      color: white;
+      text-align: center;
+      font-size: 13px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s ease, transform .25s ease;
+      z-index: 50;
+      box-shadow: 0 14px 40px rgba(0,0,0,.18);
+    }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    @media (max-height: 740px) {
+      .scene { justify-content: flex-start; padding-top: 26px; }
+      .lead { line-height: 1.55; }
+      .actions { margin-top: 22px; }
+      .contract { margin-top: 18px; }
+    }
+
+    @media (min-width: 560px) {
+      .scene { padding: 46px 40px 34px; }
+      .choices.two { grid-template-columns: 1fr 1fr; }
+      .shell { min-height: min(760px, calc(100svh - 50px)); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .001ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app" aria-live="polite">
+    <div class="ambient" aria-hidden="true"></div>
+
+    <div class="shell">
+      <div class="topbar">
+        <span>para Marita</span>
+        <span class="mini-heart">♡</span>
+      </div>
+
+      <div class="stage">
+        <section class="scene active" data-scene="0">
+          <p class="eyebrow">Una confesión pequeña</p>
+          <h1>Hola, Marita hermosa.</h1>
+          <p class="lead">Sé que no he sido el novio más romántico últimamente...</p>
+
+          <div class="actions">
+            <button class="btn secondary" id="tePasas">Sí pues, te pasas mono 🙄</button>
+            <button class="btn primary" id="siRomantico">Claro que noo, sí lo has sido monito 🥺</button>
+          </div>
+        </section>
+
+        <section class="scene" data-scene="1">
+          <p class="eyebrow">Entonces...</p>
+          <h2>Quiero compensarlo a mi manera.</h2>
+          <p class="lead">No con algo enorme. Solo haciendo que un plan que ya tenemos se sienta un poquito más nuestro. ♡</p>
+
+          <div class="actions">
+            <button class="btn primary next">A ver qué tramas, monito 👀</button>
+            <button class="btn secondary" id="masTeVale">Más te vale 🤨</button>
+          </div>
+        </section>
+
+        <section class="scene" data-scene="2">
+          <p class="eyebrow">Porque sí, ya lo sabes...</p>
+          <h2>Pero igual quería preguntártelo bonito.</h2>
+          <div class="divider"></div>
+          <p class="lead fade-line">Hoy no quiero que sea simplemente “vamos al centro a comprar maquillaje”.</p>
+          <p class="lead fade-line">Quiero que sea nuestra salida.</p>
+          <p class="lead fade-line soft">Música en el auto, tú escogiendo tranquila y yo feliz de acompañarte.</p>
+
+          <div class="actions">
+            <button class="btn primary next">Sigue, monito ♡</button>
+          </div>
+        </section>
+
+        <section class="scene" data-scene="3">
+          <p class="eyebrow">Invitación oficial</p>
+          <h2>Marita...</h2>
+          <div class="reveal-card">
+            <strong>¿Me regalas una cita conmigo para ir por tu maquillaje? ♡</strong>
+            <span class="soft">Prometo ser excelente compañía y pésimo experto en delineadores.</span>
+          </div>
+
+          <div class="choices two">
+            <button class="btn primary yes-choice" data-answer="sweet">Sí, quiero ♡</button>
+            <button class="btn secondary yes-choice" data-answer="playful">Obvio, monito 💄</button>
+          </div>
+        </section>
+
+        <section class="scene" data-scene="4">
+          <p class="eyebrow">Excelente decisión, señorita</p>
+          <h2>Solo falta aceptar las condiciones.</h2>
+
+          <div class="contract">
+            <p class="contract-title">Plan oficial de hoy</p>
+            <ul>
+              <li>Salir juntitos rumbo al centro.</li>
+              <li>Poner música rica en el auto.</li>
+              <li>Mirar maquillaje sin apuro.</li>
+              <li>Dar opiniones aunque probablemente improvise.</li>
+              <li>Cargar lo que haya que cargar.</li>
+              <li>Consentir a mi Marita, como corresponde.</li>
+            </ul>
+
+            <div class="small-print" id="smallPrint">
+              La letra pequeña establece que el novio podrá solicitar un beso 😈 como comisión por servicios logísticos.
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn primary" id="acepto">ACEPTO ♡</button>
+            <button class="btn ghost" id="letraPequena">Quiero leer la letra pequeña</button>
+          </div>
+        </section>
+
+        <section class="scene" data-scene="5">
+          <p class="eyebrow">Trato hecho ♡</p>
+          <h2>Entonces tenemos una cita.</h2>
+
+          <div class="ticket">
+            <div class="ticket-main">
+              <div class="ticket-date">HOY · SALIDA OFICIAL</div>
+              <div class="ticket-time">7:00 PM</div>
+            </div>
+            <div class="ticket-bottom">Zarpamos en mi auto 🚗♡</div>
+          </div>
+
+          <div class="actions">
+            <button class="btn primary" id="finale">Ya estoy lista 💄</button>
+          </div>
+        </section>
+
+        <section class="scene" data-scene="6">
+          <p class="eyebrow" style="text-align:center">Misión de esta noche</p>
+          <h2 style="text-align:center">¡¡¡Vamos de compras de maquillaje!!!</h2>
+
+          <div class="final-copy">
+            <span>Tú solo eliges el maquillaje.</span>
+            <span>Yo me encargo de todo :3</span>
+          </div>
+
+          <p class="signature">Con amor, tu monito ♡</p>
+
+          <div class="actions">
+            <button class="btn secondary" id="replay">Volver a verla ↺</button>
+          </div>
+        </section>
+      </div>
+
+      <div class="progress" aria-label="Progreso de la invitación">
+        <span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </div>
+    </div>
+
+    <div class="toast" id="toast" role="status"></div>
+  </main>
+
+  <script>
+    const scenes = [...document.querySelectorAll('.scene')];
+    const dots = [...document.querySelectorAll('.dot')];
+    const toast = document.getElementById('toast');
+    let current = 0;
+    let negativeClicks = 0;
+    let acceptAttempts = 0;
+
+    function showScene(index) {
+      if (index === current) return;
+      const oldScene = scenes[current];
+      const newScene = scenes[index];
+
+      oldScene.classList.add('leaving');
+      oldScene.classList.remove('active');
+
+      window.setTimeout(() => {
+        oldScene.classList.remove('leaving');
+        newScene.classList.add('active');
+        current = index;
+        dots.forEach((dot, i) => dot.classList.toggle('on', i <= current));
+      }, 260);
+    }
+
+    function next() {
+      if (current < scenes.length - 1) showScene(current + 1);
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      window.clearTimeout(showToast.timer);
+      showToast.timer = window.setTimeout(() => toast.classList.remove('show'), 1700);
+    }
+
+    function hearts(count = 12) {
+      for (let i = 0; i < count; i++) {
+        const h = document.createElement('span');
+        h.className = 'heart-particle';
+        h.textContent = Math.random() > .35 ? '♡' : '♥';
+        h.style.setProperty('--drift', `${(Math.random() - .5) * 220}px`);
+        h.style.setProperty('--rot', `${(Math.random() - .5) * 40}deg`);
+        h.style.setProperty('--duration', `${1.25 + Math.random() * .8}s`);
+        h.style.setProperty('--size', `${14 + Math.random() * 14}px`);
+        h.style.left = `${35 + Math.random() * 30}%`;
+        h.style.top = `${62 + Math.random() * 12}%`;
+        document.body.appendChild(h);
+        window.setTimeout(() => h.remove(), 2300);
+      }
+    }
+
+    function sparkleFrom(element) {
+      const rect = element.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      for (let i = 0; i < 18; i++) {
+        const p = document.createElement('span');
+        p.className = 'spark';
+        const angle = (Math.PI * 2 * i) / 18;
+        const distance = 35 + Math.random() * 55;
+        p.style.left = `${cx}px`;
+        p.style.top = `${cy}px`;
+        p.style.setProperty('--x', `${Math.cos(angle) * distance}px`);
+        p.style.setProperty('--y', `${Math.sin(angle) * distance}px`);
+        document.body.appendChild(p);
+        window.setTimeout(() => p.remove(), 1000);
+      }
+    }
+
+    document.querySelectorAll('.next').forEach(btn => btn.addEventListener('click', next));
+
+    const tePasas = document.getElementById('tePasas');
+    const siRomantico = document.getElementById('siRomantico');
+
+    tePasas.addEventListener('click', () => {
+      negativeClicks += 1;
+      const states = [
+        ['¿Segura? 🥺', 'shrink-1'],
+        ['Marita... piénsalo bien 🤨', 'shrink-2'],
+        ['Ya pues 😔', 'shrink-3']
+      ];
+      const state = states[Math.min(negativeClicks - 1, states.length - 1)];
+      tePasas.textContent = state[0];
+      tePasas.classList.remove('shrink-1', 'shrink-2', 'shrink-3');
+      tePasas.classList.add(state[1]);
+      siRomantico.classList.add('grow');
+
+      if (negativeClicks >= 3) {
+        tePasas.textContent = 'Bueno... sí has sido romántico 😭';
+        tePasas.onclick = () => {
+          hearts(10);
+          showScene(1);
+        };
+      }
+    });
+
+    siRomantico.addEventListener('click', () => {
+      sparkleFrom(siRomantico);
+      hearts(18);
+      showToast('Sabía que eras una chica comprensiva 🤍');
+      window.setTimeout(() => showScene(1), 420);
+    });
+
+    document.getElementById('masTeVale').addEventListener('click', () => {
+      showToast('Prometo que esta vez sí hay producción 😌');
+      window.setTimeout(() => showScene(2), 520);
+    });
+
+    document.querySelectorAll('.yes-choice').forEach(btn => {
+      btn.addEventListener('click', () => {
+        sparkleFrom(btn);
+        hearts(btn.dataset.answer === 'playful' ? 20 : 14);
+        showToast(btn.dataset.answer === 'playful' ? 'Esa es mi chica 💄♡' : 'Respuesta correcta ♡');
+        window.setTimeout(() => showScene(4), 450);
+      });
+    });
+
+    const smallPrint = document.getElementById('smallPrint');
+    const smallPrintButton = document.getElementById('letraPequena');
+    const acceptButton = document.getElementById('acepto');
+
+    function revealSmallPrint() {
+      smallPrint.classList.add('show');
+      smallPrintButton.classList.remove('contract-grow-1');
+      smallPrintButton.classList.add('contract-grow-2');
+      smallPrintButton.textContent = 'Letra pequeña leída ✓';
+    }
+
+    smallPrintButton.addEventListener('click', () => {
+      acceptAttempts = Math.max(acceptAttempts, 2);
+      acceptButton.classList.remove('shrink-1');
+      acceptButton.classList.add('shrink-2');
+      revealSmallPrint();
+    });
+
+    acceptButton.addEventListener('click', (e) => {
+      if (!smallPrint.classList.contains('show')) {
+        acceptAttempts += 1;
+        acceptButton.classList.remove('shrink-1', 'shrink-2');
+        smallPrintButton.classList.remove('contract-grow-1', 'contract-grow-2');
+
+        if (acceptAttempts === 1) {
+          acceptButton.classList.add('shrink-1');
+          smallPrintButton.classList.add('contract-grow-1');
+          showToast('Falta revisar la letra pequeña 👀');
+        } else {
+          acceptButton.classList.add('shrink-2');
+          smallPrintButton.classList.add('contract-grow-2');
+          revealSmallPrint();
+          showToast('Ahora sí, con todas las condiciones claras 😌');
+        }
+        return;
+      }
+
+      sparkleFrom(e.currentTarget);
+      hearts(22);
+      e.currentTarget.textContent = '✓ ACEPTADO';
+      e.currentTarget.disabled = true;
+      window.setTimeout(() => showScene(5), 680);
+    });
+
+    document.getElementById('finale').addEventListener('click', (e) => {
+      sparkleFrom(e.currentTarget);
+      hearts(28);
+      window.setTimeout(() => showScene(6), 360);
+    });
+
+    document.getElementById('replay').addEventListener('click', () => {
+      negativeClicks = 0;
+      tePasas.textContent = 'Sí pues, te pasas mono 🙄';
+      tePasas.className = 'btn secondary';
+      tePasas.onclick = null;
+      siRomantico.classList.remove('grow');
+      smallPrint.classList.remove('show');
+      acceptAttempts = 0;
+      smallPrintButton.classList.remove('contract-grow-1', 'contract-grow-2');
+      smallPrintButton.textContent = 'Quiero leer la letra pequeña';
+      acceptButton.classList.remove('shrink-1', 'shrink-2');
+      acceptButton.disabled = false;
+      acceptButton.textContent = 'ACEPTO ♡';
+      showScene(0);
+    });
+  </script>
+</body>
+</html>
